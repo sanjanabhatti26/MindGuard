@@ -81,6 +81,7 @@ section{
   padding:60px 24px;
   position:relative;
   opacity:0;
+  overflow-y:auto;
 }
 
 section.active{
@@ -180,6 +181,36 @@ button.ghost{
   background: var(--white);
   color: var(--deep-teal);
   box-shadow: 0 4px 16px rgba(33,106,89,.12);
+}
+
+button.sos-btn{
+  position: fixed;
+  bottom: 26px;
+  right: 26px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  padding: 0;
+  margin: 0;
+  background: linear-gradient(135deg, var(--leaf), #4e9a3a);
+  box-shadow: 0 12px 40px rgba(99,174,77,.4);
+  z-index: 50;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  animation: sosPulse 2s ease-in-out infinite;
+  transition: transform .2s var(--ease-calm);
+  color: white;
+}
+
+button.sos-btn:hover{
+  transform: scale(1.1);
+  box-shadow: 0 16px 50px rgba(99,174,77,.5);
+}
+
+@keyframes sosPulse{
+  0%, 100%{ box-shadow: 0 12px 40px rgba(99,174,77,.4); }
+  50%{ box-shadow: 0 12px 40px rgba(99,174,77,.7); }
 }
 
 #result .result-buttons{
@@ -294,6 +325,30 @@ button.ghost{
   box-shadow: 0 16px 50px rgba(33,106,89,.1);
 }
 
+.grounding-item{
+  background: var(--white);
+  border-radius: 18px;
+  padding: 20px 24px;
+  margin: 10px 0;
+  text-align: left;
+  box-shadow: 0 12px 34px rgba(33,106,89,.08);
+  max-width: 550px;
+  width: 100%;
+}
+
+.grounding-item .sense-name{
+  font-weight: 700;
+  color: var(--leaf);
+  margin-bottom: 8px;
+  font-size: 18px;
+}
+
+.grounding-item p{
+  font-size: 15px;
+  margin-top: 6px;
+  text-align: left;
+}
+
 #resources .resource-list{
   display:flex;
   flex-direction:column;
@@ -356,12 +411,12 @@ button.ghost{
   z-index: 20;
   animation: popMsg 1s ease-out forwards;
 }
+
 @keyframes popMsg {
   0%   { opacity: 1; transform: translateY(0) scale(1); }
   100% { opacity: 0; transform: translateY(-70px) scale(1.5); }
 }
 
-/* ---------- Modern floating nav (replaces text "back home" buttons) ---------- */
 .topnav{
   position: fixed;
   top: 26px;
@@ -423,13 +478,17 @@ button.ghost{
   .topnav{ top:18px; padding:0 16px; }
   .nav-icon-btn{ width:44px; height:44px; }
   .bubble-header{ top:78px; }
+  button.sos-btn{ width: 56px; height: 56px; font-size: 16px; bottom: 18px; right: 18px; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- Floating navigation: previous step + return to the calm space -->
+<!-- SOS Quick Access Button -->
+<button class="sos-btn" onclick="goTo('sos')" title="Quick help" aria-label="SOS Help">SOS</button>
+
+<!-- Floating navigation -->
 <div class="topnav" aria-hidden="false">
   <button class="nav-icon-btn" id="prevBtn" onclick="goBack()" aria-label="Previous step" title="Previous step">
     <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
@@ -439,13 +498,61 @@ button.ghost{
   </button>
 </div>
 
+<!-- HOME SECTION -->
 <section id="home" class="active">
 <div class="eyebrow">a calm space</div>
 <h1>MindGuard</h1>
 <p>You do not need to fix anything right now.<br>Just pause for a moment, here, with us.</p>
+
 <button onclick="goTo('calm')">Begin</button>
+
+<p style="font-size: 11px; color: var(--ink-soft); margin-top: 32px; opacity: 0.6;">Not a medical tool. Seek help if in crisis.</p>
 </section>
 
+<!-- SOS SECTION - Immediate Help -->
+<section id="sos">
+<div class="eyebrow">right now</div>
+<h2 class="title-green">You are safe</h2>
+<p style="margin-top: 24px; font-size: 19px;">Let's ground you back to the moment.</p>
+
+<div style="text-align: left; max-width: 550px; width: 100%; margin-top: 32px;">
+  <div class="grounding-item">
+    <div class="sense-name">👀 5 things you see</div>
+    <p>Look around and name them. Be specific.</p>
+  </div>
+  
+  <div class="grounding-item">
+    <div class="sense-name">👆 4 things you can touch</div>
+    <p>Feel the texture. Notice what's real around you.</p>
+  </div>
+  
+  <div class="grounding-item">
+    <div class="sense-name">👂 3 things you hear</div>
+    <p>Listen. What sounds are actually there?</p>
+  </div>
+  
+  <div class="grounding-item">
+    <div class="sense-name">👃 2 things you smell</div>
+    <p>Notice your surroundings with smell.</p>
+  </div>
+  
+  <div class="grounding-item">
+    <div class="sense-name">👅 1 thing you taste</div>
+    <p>Drink water. Eat something. Ground in taste.</p>
+  </div>
+</div>
+
+<p style="margin-top: 32px; font-size: 14px; color: var(--ink-soft);">Need to talk? <strong style="color: var(--leaf);">Call or text 988</strong></p>
+
+<p style="margin-top: 20px; font-size: 11px; color: var(--ink-soft); opacity: 0.7;">This is not a medical tool. For severe anxiety or crisis, seek professional help immediately.</p>
+
+<div style="display: flex; gap: 10px; margin-top: 16px; justify-content: center;">
+  <button onclick="goTo('calm')">Back to calm</button>
+  <button class="ghost" onclick="goTo('journal')">Journal</button>
+</div>
+</section>
+
+<!-- CALM BREATHING SECTION -->
 <section id="calm">
 <h2 class="title-teal">Follow the movement</h2>
 <div class="breath-wrap">
@@ -455,57 +562,130 @@ button.ghost{
   <div class="circle"><span>breathe</span></div>
 </div>
 <p>Inhale as the circle expands.<br>Exhale as it softens.</p>
+<p style="font-size: 14px; color: var(--ink-soft); margin-top: 8px;">Move at your own pace. Take your time.</p>
 <button onclick="goTo('check')">Continue</button>
 </section>
 
+<!-- CHECK IN SECTION -->
 <section id="check" class="video-bg">
 <video autoplay muted loop playsinline>
 <source src="https://cdn.coverr.co/videos/coverr-hugging-at-sunset-1903/1080p.mp4" type="video/mp4">
 </video>
 
-<h2 class="title-green">Check in with yourself</h2>
+<h2 class="title-green">How are you feeling?</h2>
 
 <div class="questions-box">
-  <label class="question"><input type="radio" name="state" value="heart"><span class="icon">💓</span> Is your heartbeat faster than usual?</label>
-  <label class="question"><input type="radio" name="state" value="restless"><span class="icon">🌬️</span> Do you feel restless or uneasy right now?</label>
-  <label class="question"><input type="radio" name="state" value="thoughts"><span class="icon">💭</span> Are your thoughts racing or hard to slow down?</label>
-  <label class="question"><input type="radio" name="state" value="fear"><span class="icon">🌙</span> Do you feel a sense of fear or discomfort?</label>
+  <label class="question"><input type="radio" name="state" value="heart"><span class="icon">💓</span> My heart is racing</label>
+  <label class="question"><input type="radio" name="state" value="restless"><span class="icon">🌬️</span> I feel restless or shaky</label>
+  <label class="question"><input type="radio" name="state" value="thoughts"><span class="icon">💭</span> My thoughts won't slow down</label>
+  <label class="question"><input type="radio" name="state" value="fear"><span class="icon">😰</span> I feel scared or panicky</label>
 </div>
 
-<button onclick="showResult()">See how you are doing</button>
+<button onclick="showResult()">Show me what helps</button>
 </section>
 
+<!-- RESULT SECTION -->
 <section id="result">
 <h2 id="resultTitle" class="result-glow"></h2>
 <p id="resultText"></p>
 <div class="coping-box" id="copingBox"></div>
 
-<p style="margin-top:20px;">You showed up for yourself. That matters.</p>
+<p style="margin-top: 20px; font-size: 14px; color: var(--ink-soft);">Feeling overwhelmed? <strong style="color: var(--leaf);">Call 9152987821 (iCall)</strong> or talk to someone you trust.</p>
+
+<p style="margin-top:20px; font-size: 16px;">You reached out. That's the first step.</p>
 
 <div class="result-buttons">
-  <button class="ghost" onclick="goTo('resources')">Mindful exercises</button>
-  <button onclick="goTo('bubble')">Bubble release</button>
+  <button onclick="goTo('grounding')">🌍 Ground yourself</button>
+  <button onclick="goTo('bubble')">🫧 Play & release</button>
+  <button onclick="goTo('resources')">Mindful exercises</button>
+  <button onclick="goTo('journal')">📝 Journal</button>
 </div>
 
+<p style="margin-top: 20px; padding: 12px 16px; background: rgba(251,210,106,.15); border-radius: 12px; font-size: 13px; color: var(--ink); border-left: 3px solid var(--amber);">
+  <strong>⚠️ Severe anxiety?</strong> These tools help, but if you're in crisis or having thoughts of self-harm, call 988 or text 988. Professional help is important.
+</p>
 </section>
 
-<section id="resources">
-<div class="eyebrow">take your time</div>
-<h2 class="title-green">Mindful exercises</h2>
-<p>Here are gentle guided practices.</p>
+<!-- GROUNDING SECTION - 5 SENSES -->
+<section id="grounding">
+<div class="eyebrow">ground yourself</div>
+<h2 class="title-teal">5 Senses Check-In</h2>
+<p>This brings you back to the present moment.</p>
 
-<div class="resource-list">
-  <a href="https://www.youtube.com/watch?v=inpok4MKVLM" target="_blank">🌿 Guided breathing</a>
-  <a href="https://www.youtube.com/watch?v=ZToicYcHIOU" target="_blank">🌊 Grounding meditation</a>
+<div style="text-align: left; max-width: 550px; width: 100%; margin-top: 24px;">
+  <div class="grounding-item">
+    <div class="sense-name">👀 5 things you see</div>
+    <p>Look around and name them. Be specific. "The green lamp in the corner."</p>
+  </div>
+  
+  <div class="grounding-item">
+    <div class="sense-name">👆 4 things you can touch</div>
+    <p>Feel the texture. Soft blanket? Cold wall? Rough fabric?</p>
+  </div>
+  
+  <div class="grounding-item">
+    <div class="sense-name">👂 3 things you hear</div>
+    <p>Listen. Birds? Traffic? The hum of something?</p>
+  </div>
+  
+  <div class="grounding-item">
+    <div class="sense-name">👃 2 things you smell</div>
+    <p>Coffee? Rain? A candle? Notice it.</p>
+  </div>
+  
+  <div class="grounding-item">
+    <div class="sense-name">👅 1 thing you taste</div>
+    <p>Drink water. Eat something. Notice the flavor.</p>
+  </div>
+</div>
+
+<div style="display: flex; gap: 10px; margin-top: 28px; justify-content: center;">
+  <button onclick="goTo('result')">Back</button>
+  <button onclick="goTo('resources')">Mindful exercises</button>
+  <button onclick="goTo('journal')">Journal</button>
 </div>
 </section>
 
+<!-- BUBBLE SECTION -->
 <section id="bubble">
   <div class="bubble-header">
     <h2 class="title-teal">Pop your worries away</h2>
     <p>tap gently, let them go</p>
   </div>
   <canvas id="bubbleCanvas"></canvas>
+</section>
+
+<!-- JOURNAL SECTION -->
+<section id="journal">
+<div class="eyebrow">your thoughts</div>
+<h2 class="title-green">Journal</h2>
+<p>Write what you're feeling. Just for you.</p>
+
+<textarea id="journalText" style="width: 100%; max-width: 600px; height: 280px; padding: 16px; border-radius: 16px; border: 2px solid var(--leaf); font-family: var(--sans); font-size: 15px; resize: none; margin-top: 20px; color: var(--ink); background: var(--white);" placeholder="Your thoughts here... (saved locally)"></textarea>
+
+<div style="display: flex; gap: 12px; margin-top: 20px; justify-content: center;">
+  <button class="ghost" onclick="saveJournal()">Save</button>
+  <button class="ghost" onclick="clearJournal()">Clear</button>
+  <button onclick="goTo('result')">Back</button>
+</div>
+
+<p style="font-size: 12px; color: var(--ink-soft); margin-top: 16px;">✓ Saves to your device. Only you can see it.</p>
+</section>
+
+<!-- RESOURCES SECTION -->
+<section id="resources">
+<div class="eyebrow">take your time</div>
+<h2 class="title-green">Mindful exercises</h2>
+<p>Guided practices that help over time.</p>
+
+<div class="resource-list">
+  <a href="https://www.youtube.com/watch?v=inpok4MKVLM" target="_blank">🌿 Guided breathing</a>
+  <a href="https://www.youtube.com/watch?v=ZToicYcHIOU" target="_blank">🌊 Grounding meditation</a>
+  <a href="https://www.youtube.com/watch?v=XhOuK0Fkm2Q" target="_blank">🧘 Anxiety relief</a>
+  <a href="https://www.youtube.com/watch?v=LDRbsIoIRSA" target="_blank">😴 Sleep & calm</a>
+</div>
+
+<button class="ghost" onclick="goBack()" style="margin-top: 24px;">Back</button>
 </section>
 
 <script>
@@ -542,6 +722,10 @@ function goTo(id, recordHistory = true){
   if(id === "bubble"){
     startBubbleGame();
   }
+  
+  if(id === "journal"){
+    loadJournal();
+  }
 
   updateTopNav(id);
 }
@@ -567,25 +751,27 @@ function showResult(){
 
   if(choice.value === "heart"){
     resultTitle.innerText = "Your body feels activated";
-    resultText.innerText  = "Stress is showing physically.";
-    copingBox.innerText   = "Take three slow breaths. Longer exhale.";
+    resultText.innerText  = "Racing heart is just your nervous system on alert.";
+    copingBox.innerText   = "💡 Try: Just breathe normally. Feel your feet on the ground. Your body will calm down.";
   }
   else if(choice.value === "restless"){
     resultTitle.innerText = "Your energy feels unsettled";
-    resultText.innerText  = "That is manageable.";
-    copingBox.innerText   = "Press feet into ground. Notice surroundings.";
+    resultText.innerText  = "Restlessness means your body wants to move.";
+    copingBox.innerText   = "💡 Try: Move. Shake out, walk, stretch. Let your body release the tension.";
   }
   else if(choice.value === "thoughts"){
     resultTitle.innerText = "Your mind is moving fast";
-    resultText.innerText  = "Racing thoughts will slow.";
-    copingBox.innerText   = "Inhale 4 sec. Exhale 6 sec.";
+    resultText.innerText  = "Racing thoughts usually slow when you ground yourself.";
+    copingBox.innerText   = "💡 Try: Notice 5 things around you right now. Slow down with your senses.";
   }
   else if(choice.value === "fear"){
     resultTitle.innerText = "This feels uncomfortable";
-    resultText.innerText  = "You are safe right now.";
-    copingBox.innerText   = "Notice something solid near you.";
+    resultText.innerText  = "Fear is temporary, even though it feels real.";
+    copingBox.innerText   = "💡 Try: Feel something solid. Hold something. You are safe right now.";
   }
 }
+
+// BUBBLE GAME
 
 let bubbles = [], animFrameId = null, spawnTimer = null;
 let canvas, ctx;
@@ -706,7 +892,7 @@ function startBubbleGame() {
   }
   canvas.addEventListener("click", onCanvasClick);
   window.addEventListener("resize", resizeCanvas);
-  spawnTimer  = setInterval(() => { if (bubbles.length < 24) bubbles.push(new Bubble()); }, 1500);
+  spawnTimer  = setInterval(() => { if (bubbles.length < 24) bubbles.push(new Bubble()); }, 1000);
   animFrameId = requestAnimationFrame(gameLoop);
 }
 
@@ -717,6 +903,38 @@ function stopBubbleGame() {
   window.removeEventListener("resize", resizeCanvas);
   bubbles = [];
 }
+
+// JOURNAL FUNCTIONS
+
+function saveJournal() {
+  const text = document.getElementById("journalText").value;
+  const timestamp = new Date().toLocaleString();
+  const entry = {
+    text: text,
+    date: timestamp
+  };
+  localStorage.setItem("mindguardJournal", JSON.stringify(entry));
+  alert("Journal saved! 💾");
+}
+
+function clearJournal() {
+  if(confirm("Clear your journal? This can't be undone.")) {
+    document.getElementById("journalText").value = "";
+    localStorage.removeItem("mindguardJournal");
+    alert("Journal cleared.");
+  }
+}
+
+function loadJournal() {
+  const saved = localStorage.getItem("mindguardJournal");
+  if(saved) {
+    const entry = JSON.parse(saved);
+    document.getElementById("journalText").value = entry.text;
+  }
+}
+
+// Load journal on page load
+window.addEventListener("load", loadJournal);
 
 updateTopNav("home");
 </script>
